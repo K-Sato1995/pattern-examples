@@ -1,0 +1,22 @@
+{
+  "name": "pattern-examples",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "fmt": "prettier . --write"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/K-Sato1995/pattern-examples.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/K-Sato1995/pattern-examples/issues"
+  },
+  "homepage": "https://github.com/K-Sato1995/pattern-examples#readme",
+  "devDependencies": {
+    "prettier": "3.0.3"
+  }
+}

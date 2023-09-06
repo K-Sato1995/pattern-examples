@@ -3,7 +3,7 @@ interface PaymentStrategy {
   /**
    * 決済処理
    */
-  pay(amount: number): void; 
+  pay(amount: number): void;
 
   /**
    * 決済キャンセル処理
@@ -17,11 +17,10 @@ class CashPayment implements PaymentStrategy {
   }
 
   public rollback(amount: number): void {
-    // 実装省略 
+    // 実装省略
   }
 }
 
-  
 class CreditCardPayment implements PaymentStrategy {
   public pay(amount: number): void {
     const getCreditCardcomp = getCreditCardCompany();
@@ -29,46 +28,43 @@ class CreditCardPayment implements PaymentStrategy {
   }
 
   public rollback(amount: number): void {
-     // 実装省略 
+    // 実装省略
   }
 }
 
-
 class PayyyPayPayment implements PaymentStrategy {
-    public pay(amount: number): void {
-        const payyypayClient = new PayyyPay()
-        payyypayClient.payComplete(amount)
-    }
-    public rollback(amount: number): void {
-        // 実装省略 
-     }
+  public pay(amount: number): void {
+    const payyypayClient = new PayyyPay();
+    payyypayClient.payComplete(amount);
+  }
+  public rollback(amount: number): void {
+    // 実装省略
+  }
 }
 
 class MerrrPayPayment implements PaymentStrategy {
-    public pay(amount: number): void {
-        const merrrClient = new MerrrPayPayment()
-        merrrClient.transaction(amount)
-    }
-    public rollback(amount: number): void {
-        // 実装省略 
-     }
+  public pay(amount: number): void {
+    const merrrClient = new MerrrPayPayment();
+    merrrClient.transaction(amount);
+  }
+  public rollback(amount: number): void {
+    // 実装省略
+  }
 }
 
-
 class ooPayPayment implements PaymentStrategy {
-    public pay(amount: number): void {
+  public pay(amount: number): void {
     /**
      * ooPayのクライアントの決済処理
      */
-    }
-    
-    public rollback(amount: number): void {
+  }
+
+  public rollback(amount: number): void {
     /**
      * ooPayのクライアントの決済キャンセル処理
      */
-    }
+  }
 }
-
 
 /**
  * @memo 上記の使用例
