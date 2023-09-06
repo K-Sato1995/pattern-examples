@@ -1,89 +1,78 @@
 // Strategyのinterface
-interface PaymentStrategy {
+type PaymentStrategy = {
   /**
    * 決済処理
    */
-  pay(amount: number): void;
-
+  pay: (amount: number) => void;
   /**
    * 決済キャンセル処理
    */
-  rollback(amount: number): void;
-}
+  rollback: (amount: number) => void;
+};
 
-class CashPayment implements PaymentStrategy {
-  public pay(amount: number): void {
+const CashPayment: PaymentStrategy = {
+  pay: (amount) => {
     console.log(`CASH: ${amount}`);
-  }
-
-  public rollback(amount: number): void {
+  },
+  rollback: (amount) => {
     // 実装省略
-  }
-}
+  },
+};
 
-class CreditCardPayment implements PaymentStrategy {
-  public pay(amount: number): void {
-    const getCreditCardcomp = getCreditCardCompany();
-    getCreditCardcomp.completePayment(amount);
-  }
-
-  public rollback(amount: number): void {
+const CreditCardPayment: PaymentStrategy = {
+  pay: (amount) => {
+    const getCreditCardCompany = () => ({
+      completePayment: (a: number) => console.log(`Credit Card: ${a}`),
+    });
+    const creditCardCompany = getCreditCardCompany();
+    creditCardCompany.completePayment(amount);
+  },
+  rollback: (amount) => {
     // 実装省略
-  }
-}
+  },
+};
 
-class PayyyPayPayment implements PaymentStrategy {
-  public pay(amount: number): void {
+const PayyyPayPayment: PaymentStrategy = {
+  pay: (amount) => {
     const payyypayClient = new PayyyPay();
     payyypayClient.payComplete(amount);
-  }
-  public rollback(amount: number): void {
+  },
+  rollback: (amount) => {
     // 実装省略
-  }
-}
+  },
+};
 
-class MerrrPayPayment implements PaymentStrategy {
-  public pay(amount: number): void {
+const MerrrPayPayment: PaymentStrategy = {
+  pay: (amount) => {
     const merrrClient = new MerrrPayPayment();
     merrrClient.transaction(amount);
-  }
-  public rollback(amount: number): void {
+  },
+  /**
+   * 決済キャンセル処理
+   */
+  rollback: (amount) => {
     // 実装省略
-  }
-}
+  },
+};
 
-class ooPayPayment implements PaymentStrategy {
-  public pay(amount: number): void {
-    /**
-     * ooPayのクライアントの決済処理
-     */
-  }
-
-  public rollback(amount: number): void {
-    /**
-     * ooPayのクライアントの決済キャンセル処理
-     */
-  }
-}
-
-/**
- * @memo 上記の使用例
- */
-class ShoppingCart {
-  private paymentStrategy: PaymentStrategy;
-
-  constructor(paymentStrategy: PaymentStrategy) {
-    this.paymentStrategy = paymentStrategy;
-  }
-
-  public checkout(amount: number): void {
-    this.paymentStrategy.pay(amount);
-  }
-}
+// @memo 上記の使用例
+const ShoppingCart = (paymentStrategy: PaymentStrategy) => {
+  return {
+    checkout: (amount: number) => {
+      paymentStrategy.pay(amount);
+    },
+  };
+};
 
 // Client code
-const cart1 = new ShoppingCart(new CreditCardPayment());
+const cart1 = ShoppingCart(CreditCardPayment);
 cart1.checkout(500);
 
-const cart2 = new ShoppingCart(new CashPayment());
+const cart2 = ShoppingCart(CashPayment);
 cart2.checkout(300);
+
+const cart3 = ShoppingCart(PayyyPayPayment);
+cart3.checkout(200);
+
+const cart4 = ShoppingCart(MerrrPayPayment);
+cart4.checkout(100);
