@@ -1,4 +1,4 @@
-// Strategyのinterface
+// 決済方法のインターフェース(入口の形)
 type PaymentStrategy = {
   /**
    * 決済処理
@@ -10,6 +10,7 @@ type PaymentStrategy = {
   rollback: (amount: number) => void;
 };
 
+// 決済方法の具体的実装(1)
 const CashPayment: PaymentStrategy = {
   pay: (amount) => {
     console.log(`CASH: ${amount}`);
