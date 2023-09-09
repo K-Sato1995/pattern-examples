@@ -11,7 +11,7 @@ type PaymentStrategy = {
 };
 
 // 決済方法の具体的実装(1)
-const CashPayment: PaymentStrategy = {
+const cashPayment: PaymentStrategy = {
   pay: (amount) => {
     console.log(`CASH: ${amount}`);
   },
@@ -20,7 +20,7 @@ const CashPayment: PaymentStrategy = {
   },
 };
 
-const CreditCardPayment: PaymentStrategy = {
+const creditCardPayment: PaymentStrategy = {
   pay: (amount) => {
     const getCreditCardCompany = () => ({
       completePayment: (a: number) => console.log(`Credit Card: ${a}`),
@@ -33,7 +33,7 @@ const CreditCardPayment: PaymentStrategy = {
   },
 };
 
-const PayyyPayPayment: PaymentStrategy = {
+const payyyPayPayment: PaymentStrategy = {
   pay: (amount) => {
     const payyypayClient = new PayyyPay();
     payyypayClient.payComplete(amount);
@@ -43,7 +43,7 @@ const PayyyPayPayment: PaymentStrategy = {
   },
 };
 
-const MerrrPayPayment: PaymentStrategy = {
+const merrrPayPayment: PaymentStrategy = {
   pay: (amount) => {
     const merrrClient = new MerrrPayPayment();
     merrrClient.transaction(amount);
@@ -57,23 +57,26 @@ const MerrrPayPayment: PaymentStrategy = {
 };
 
 // @memo 上記の使用例
-const ShoppingCart = (paymentStrategy: PaymentStrategy) => {
+const shoppingCart = (paymentStrategy: PaymentStrategy) => {
   return {
-    checkout: (amount: number) => {
+    purchase: (amount: number) => {
       paymentStrategy.pay(amount);
+    },
+    rollbackPayment: (amount: number) => {
+      paymentStrategy.rollback(amount);
     },
   };
 };
 
 // Client code
-const cart1 = ShoppingCart(CreditCardPayment);
-cart1.checkout(500);
+const cart1 = shoppingCart(creditCardPayment);
+cart1.purchase(500);
 
-const cart2 = ShoppingCart(CashPayment);
-cart2.checkout(300);
+const cart2 = shoppingCart(cashPayment);
+cart2.purchase(300);
 
-const cart3 = ShoppingCart(PayyyPayPayment);
-cart3.checkout(200);
+const cart3 = shoppingCart(payyyPayPayment);
+cart3.purchase(200);
 
-const cart4 = ShoppingCart(MerrrPayPayment);
-cart4.checkout(100);
+const cart4 = shoppingCart(merrrPayPayment);
+cart4.purchase(100);
