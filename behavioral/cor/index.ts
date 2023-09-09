@@ -1,74 +1,70 @@
+// ハンドラ達に渡すオブジェクトのインターフェース
 interface Order {
   inventoryAvailable: boolean;
   isUserAuthenticated: boolean;
   isPaymentAuthorized: boolean;
 }
 
-// Handler Interface
+// 各ハンドラのインターフェース
 interface OrderValidationHandler {
   setNext(handler: OrderValidationHandler): OrderValidationHandler;
   handle(order: Order): string | null;
 }
 
-// ConcreteHandler Class
-class InventoryCheck implements OrderValidationHandler {
-  private nextHandler?: OrderValidationHandler;
-
-  setNext(handler: OrderValidationHandler): OrderValidationHandler {
+// Base object for validation handlers
+const orderValidationHandler = {
+  setNext: (handler) => {
     this.nextHandler = handler;
     return handler;
-  }
+  },
+  handle: (order) => null,
+};
 
-  handle(order: Order): string | null {
+// 在庫チェックのハンドラ
+const inventoryCheck = {
+  ...orderValidationHandler,
+  handle: (order) => {
     if (order.inventoryAvailable) {
       console.log("Inventory check passed.");
-      return this.nextHandler?.handle(order) || null;
+      return this.nextHandler ? this.nextHandler.handle(order) : null;
     } else {
       return "Inventory check failed.";
     }
-  }
-}
+  },
+};
 
-// ConcreteHandler Class
-class UserAuthentication implements OrderValidationHandler {
-  private nextHandler?: OrderValidationHandler;
-
-  setNext(handler: OrderValidationHandler): OrderValidationHandler {
-    this.nextHandler = handler;
-    return handler;
-  }
-
-  handle(order: Order): string | null {
+// User Authentication Handler
+const userAuthentication = {
+  ...orderValidationHandler,
+  handle: (order) => {
     if (order.isUserAuthenticated) {
       console.log("User authentication passed.");
-      return this.nextHandler?.handle(order) || null;
+      return this.nextHandler ? this.nextHandler.handle(order) : null;
     } else {
       return "User authentication failed.";
     }
-  }
-}
+  },
+};
 
-// ConcreteHandler Class
-class PaymentAuthorization implements OrderValidationHandler {
-  handle(order: Order): string | null {
+// Payment Authorization Handler
+const paymentAuthorization = {
+  ...orderValidationHandler,
+  handle: (order) => {
     if (order.isPaymentAuthorized) {
       console.log("Payment authorization passed.");
       return null;
     } else {
       return "Payment authorization failed.";
     }
-  }
-}
+  },
+};
 
+// Create an order
 const order = {
   inventoryAvailable: false,
   isUserAuthenticated: false,
   isPaymentAuthorized: false,
 };
-
-const inventoryCheck = new InventoryCheck();
-const userAuthentication = new UserAuthentication();
-const paymentAuthorization = new PaymentAuthorization();
 
 // Setting the chain
 inventoryCheck.setNext(userAuthentication).setNext(paymentAuthorization);
