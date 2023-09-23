@@ -20,6 +20,7 @@ const cashPayment: PaymentStrategy = {
   },
 };
 
+// 決済方法の具体的実装(2)
 const creditCardPayment: PaymentStrategy = {
   pay: (amount) => {
     const getCreditCardCompany = () => ({
@@ -33,6 +34,7 @@ const creditCardPayment: PaymentStrategy = {
   },
 };
 
+// 決済方法の具体的実装(3)
 const payyyPayPayment: PaymentStrategy = {
   pay: (amount) => {
     const payyypayClient = new PayyyPay();
@@ -43,6 +45,7 @@ const payyyPayPayment: PaymentStrategy = {
   },
 };
 
+// 決済方法の具体的実装(4)
 const merrrPayPayment: PaymentStrategy = {
   pay: (amount) => {
     const merrrClient = new MerrrPayPayment();

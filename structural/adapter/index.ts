@@ -11,7 +11,7 @@ const registerProducts = (products: JSONProductData[]): void => {
 };
 
 // XML用のアダプター
-const convertXmlToJSONProductData = (xmlData: string): JSONProductData[] => {
+const convertXmlToJSONProductData = (xmlData: XMLProductData): JSONProductData[] => {
   /**
    * 詳細実装は省略
    */
@@ -20,7 +20,7 @@ const convertXmlToJSONProductData = (xmlData: string): JSONProductData[] => {
 };
 
 // CSV用のアダプター
-const convertCsvToJSONProductData = (csvData: string): JSONProductData[] => {
+const convertCsvToJSONProductData = (csvData: CSVProductData): JSONProductData[] => {
   /**
    * 詳細実装は省略
    */
@@ -39,7 +39,11 @@ const csvProducts: string = "Laptop,1000\nMouse,50";
 
 // JSONデータは今まで通り登録できる
 registerProducts(jsonProducts);
+
 // XMLデータをJSONデータに変換して登録
-registerProducts(convertXmlToJSONProductData(xmlProducts));
+const jsonProductsFromXml = convertXmlToJSONProductData(xmlProducts);
+registerProducts(jsonProductsFromXml);
+
 // CSVデータをJSONデータに変換して登録
-registerProducts(convertCsvToJSONProductData(csvProducts));
+const jsonProductsFromCsv = convertCsvToJSONProductData(csvProducts);
+registerProducts(jsonProductsFromCsv);
